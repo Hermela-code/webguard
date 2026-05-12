@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGuard | Vulnerability Scanner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; } /* Slate 900 */
+    </style>
+</head>
+<body class="text-slate-200 font-sans">
+
+    <!-- Navigation -->
+    <nav class="border-b border-slate-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-500">
+                <i class="fas fa-shield-halved mr-2"></i>WebGuard
+            </h1>
+            <div class="space-x-6 text-sm">
+                <a href="/" class="hover:text-blue-400">Home</a>
+                <a href="#" class="hover:text-blue-400">Vulnerable Lab</a>
+                <a href="#" class="hover:text-blue-400">Documentation</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Hero Section -->
+    <main class="container mx-auto mt-20 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl font-extrabold mb-6">
+                Web Vulnerability <span class="text-blue-500">Assessment</span> Toolkit
+            </h2>
+            <p class="text-slate-400 text-lg mb-10">
+                An advanced lightweight platform for identifying security misconfigurations, 
+                injection vulnerabilities, and exposed sensitive resources.
+            </p>
+
+            <!-- Error Message -->
+            {% if error %}
+            <div class="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-lg mb-6">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <!-- Scan Form -->
+            <form action="/scan" method="POST" class="relative group">
+                <div class="flex items-center bg-slate-800 rounded-xl p-2 border border-slate-700 focus-within:border-blue-500 transition-all shadow-2xl">
+                    <i class="fas fa-link ml-4 text-slate-500"></i>
+                    <input 
+                        type="text" 
+                        name="url" 
+                        placeholder="Enter target URL (e.g., http://localhost:5001)" 
+                        class="w-full bg-transparent p-4 outline-none text-white placeholder-slate-500"
+                        required
+                    >
+                    <button 
+                        type="submit" 
+                        class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg font-bold transition-colors"
+                    >
+                        Analyze <i class="fas fa-bolt ml-2"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Features Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20 mb-20">
+                
+                <!-- Header Analysis -->
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-blue-500 transition-colors text-left">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-invoice text-blue-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Header Analysis</h3>
+                    <p class="text-sm text-slate-400">Scans for missing security hardening headers like CSP, HSTS, and X-Frame-Options.</p>
+                </div>
+
+                <!-- Injection Tests -->
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-red-500 transition-colors text-left">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-bug text-red-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Injection Tests</h3>
+                    <p class="text-sm text-slate-400">Detects Reflected XSS and SQL Injection entry points via automated parameter fuzzing.</p>
+                </div>
+
+                <!-- Directory Discovery -->
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-yellow-500 transition-colors text-left">
+                    <div class="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-folder-tree text-yellow-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Dir Discovery</h3>
+                    <p class="text-sm text-slate-400">Brute-forces common paths to identify hidden admin panels and potentially exposed endpoints.</p>
+                </div>
+
+                <!-- Sensitive Files -->
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-purple-500 transition-colors text-left">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-shield text-purple-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Sensitive Files</h3>
+                    <p class="text-sm text-slate-400">Checks for exposed configuration files like .env, backup.zip, or .git/config entries.</p>
+                </div>
+
+                <!-- Open Redirect -->
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-orange-500 transition-colors text-left">
+                    <div class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-external-link-alt text-orange-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Open Redirect</h3>
+                    <p class="text-sm text-slate-400">Analyzes if the application safely validates URL redirection to untrusted external domains.</p>
+                </div>
+
+                <!-- Detailed Reporting -->
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-green-500 transition-colors text-left">
+                    <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-clipboard-check text-green-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Detailed Reporting</h3>
+                    <p class="text-sm text-slate-400">Generates comprehensive reports with severity levels, impact details, and remediation tips.</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-10 py-10 border-t border-slate-800 text-center text-slate-500 text-sm">
+        &copy; 2026 WebGuard Security Toolkit | Educational Purposes Only
+    </footer>
+
+</body>
+</html>
